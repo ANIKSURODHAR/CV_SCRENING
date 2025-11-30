@@ -1,0 +1,88 @@
+import os
+import re
+import warnings
+import pickle
+import json
+from datetime import datetime
+
+# LIBRARIES 
+
+try:
+    import fairlearn
+    
+    from fairlearn.metrics import demographic_parity_difference
+except ImportError:
+    
+    print("Fairlearn not found or initial import failed. Attempting to install fairlearn and adjust Scipy...")
+    os.system('pip install fairlearn --quiet')
+   
+    os.system('pip install "scipy<1.16.0" --quiet')
+    print("Fairlearn and Scipy adjusted. Please restart runtime one last time if errors persist.")
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.decomposition import PCA
+from sklearn.metrics import (
+    accuracy_score, f1_score, roc_auc_score,
+    mean_squared_error, r2_score, classification_report,
+    confusion_matrix
+)
+
+# ML Models
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.naive_bayes import MultinomialNB, GaussianNB
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression
+from xgboost import XGBClassifier
+
+# NLP & Embeddings
+try:
+    from sentence_transformers import SentenceTransformer
+except ImportError:
+    print("Installing sentence-transformers...")
+    os.system('pip install sentence-transformers --quiet')
+    from sentence_transformers import SentenceTransformer
+
+from sklearn.metrics.pairwise import cosine_similarity
+
+# PDF Processing
+try:
+    import PyPDF2
+    import pdfplumber
+except ImportError:
+    print("Installing PDF libraries...")
+    os.system('pip install PyPDF2 pdfplumber --quiet')
+    import PyPDF2
+    import pdfplumber
+
+# Fairness & SMOTE
+from fairlearn.metrics import (
+    demographic_parity_difference,
+    demographic_parity_ratio,
+    equalized_odds_difference
+)
+from fairlearn.reductions import ExponentiatedGradient, DemographicParity
+from imblearn.over_sampling import SMOTE
+
+# Explainability
+try:
+    import shap
+    from lime.lime_tabular import LimeTabularExplainer
+except ImportError:
+    os.system('pip install shap lime --quiet')
+    import shap
+    from lime.lime_tabular import LimeTabularExplainer
+
+# Visualization
+import matplotlib.pyplot as plt
+import seaborn as sns
+import plotly.express as px
+import plotly.graph_objects as go
+
+warnings.filterwarnings('ignore')
+print("Environment Setup Complete: All libraries imported successfully.")
